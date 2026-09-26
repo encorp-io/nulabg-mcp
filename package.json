@@ -55,13 +55,13 @@
     "provenance": true
   },
   "dependencies": {
-    "@modelcontextprotocol/server": "^2.0.0",
+    "@modelcontextprotocol/server": "^2.1.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
     "@anthropic-ai/mcpb": "^2.1.2",
     "@biomejs/biome": "^2.5.14",
-    "@modelcontextprotocol/client": "^2.0.0",
+    "@modelcontextprotocol/client": "^2.1.0",
     "@types/node": "^22.20.4",
     "typescript": "^7.0.2",
     "vitest": "^5.0.1"

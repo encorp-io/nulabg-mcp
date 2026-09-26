@@ -22,6 +22,8 @@ npm run typecheck
 
 Преди pull request: `npm run lint && npm run typecheck && npm test`. Форматирането се оправя с `npm run format`.
 
+`npm audit` показва няколко намерения в dev веригата на `@anthropic-ai/mcpb` (inquirer → `tmp`), за които още няма поправка. Те не влизат в пакета: `npm audit --omit=dev` е чисто. `@types/node` се държи на минималния поддържан Node (20), затова мажорните му ъпгрейди са изключени в [dependabot.yml](.github/dependabot.yml).
+
 Ръчна проверка през MCP протокола:
 
 ```bash
