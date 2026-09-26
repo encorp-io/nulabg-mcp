@@ -1,0 +1,60 @@
+name: Проблем / Bug report
+description: Нещо не работи или отговорът от nula.bg не се разчита правилно
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Не публикувайте истински данни.** Без API ключове, ЕИК, IBAN, имена на контрагенти и суми от реални документи — имената и типовете на полетата са достатъчни.
+        *Please do not paste real data: no API keys, company identifiers, IBANs or amounts. Field names and types are enough.*
+  - type: input
+    id: version
+    attributes:
+      label: Версия
+      description: "`npx nulabg-mcp --version` или версията на `.mcpb` разширението"
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: client
+    attributes:
+      label: MCP клиент
+      options:
+        - Claude Desktop (.mcpb)
+        - Claude Code
+        - Cursor
+        - VS Code
+        - MCP Inspector
+        - друг
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Node.js и ОС
+      placeholder: Node 22.9 / macOS 15
+  - type: textarea
+    id: what
+    attributes:
+      label: Какво се случва
+      description: Кой tool, с какви параметри (без реални стойности) и какъв е резултатът
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Какво очаквахте
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Съобщение за грешка или лог
+      description: Логът е на stderr. Пуснете с `NULA_LOG_LEVEL=debug`, ако е нужно; ключът се маскира автоматично, но прегледайте текста преди да го поставите.
+      render: text
+  - type: checkboxes
+    id: mode
+    attributes:
+      label: Режим
+      options:
+        - label: Сървърът беше в режим само за четене (по подразбиране)

@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Уязвимост в сигурността
+    url: https://github.com/encorp-io/nulabg-mcp/blob/main/SECURITY.md
+    about: Не отваряйте публичен issue — пишете на security@encorp.ai.
+  - name: Въпрос за самата платформа nula.bg
+    url: https://nula.bg
+    about: Този проект е неофициален клиент. За акаунти, абонаменти, API ключове и данни се обръщайте към nula.bg.

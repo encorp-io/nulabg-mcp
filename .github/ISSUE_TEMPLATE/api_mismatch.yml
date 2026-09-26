@@ -1,0 +1,37 @@
+name: Различен отговор от nula.bg / API mismatch
+description: Поле идва с друго име, тип или стойност спрямо това, което сървърът очаква
+labels: [api-mismatch]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Форматите на отговорите са реверс-инженерни от реален акаунт, защото официалната документация описва почти само заявките. Затова тези доклади са особено полезни.
+
+        **Само имена и типове на полета — без реални стойности.** `npm run capture` прави точно такъв отчет (без `--save`).
+        *Field names and types only, please — no real values.*
+  - type: input
+    id: endpoint
+    attributes:
+      label: Endpoint или tool
+      placeholder: getInvoices / nula_search_invoices
+    validations:
+      required: true
+  - type: textarea
+    id: shape
+    attributes:
+      label: Каква е формата при вас
+      description: Имена на полета и типове (`number|null`, `"Кредит"|"Дебит"`, вложен масив…)
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: effect
+    attributes:
+      label: Какво обърква това в резултата
+      placeholder: "Сумата излиза без ДДС / статусът е празен / списъкът е с един празен запис…"
+  - type: input
+    id: plan
+    attributes:
+      label: План и модули в nula.bg (по желание)
+      description: Помага да се разбере защо полето го има при вас, а при нас не
+      placeholder: Бизнес Премиум, със счетоводство

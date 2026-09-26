@@ -1,0 +1,9 @@
+# LF everywhere, including on Windows checkouts — Biome's formatter check fails on CRLF.
+* text=auto eol=lf
+
+*.mcpb binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary

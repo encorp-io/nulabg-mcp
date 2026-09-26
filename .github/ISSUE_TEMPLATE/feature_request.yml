@@ -1,0 +1,21 @@
+name: Предложение / Feature request
+description: Нов tool, нов параметър или промяна в поведението
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Какво искате да попитате или направите през асистента
+      placeholder: "„Покажи ми ДДС дневника за август“"
+    validations:
+      required: true
+  - type: input
+    id: endpoint
+    attributes:
+      label: Endpoint в nula.bg, ако знаете такъв
+      description: Вижте https://nula.bg/api/documentation
+  - type: textarea
+    id: notes
+    attributes:
+      label: Бележки
+      description: Защо това не става с наличните tools; има ли риск от промяна в реални данни

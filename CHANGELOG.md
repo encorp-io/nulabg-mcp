@@ -16,7 +16,7 @@
 - **Guardrails**: `preview_only` преди издаване, потвърждение през MCP elicitation, проверка за дублиран номер, guard при изтриване (последна фактура + `has_accounting`), без автоматичен retry при запис, sandbox и проверка по magic bytes за файловете, SSRF защита при URL, маскиране на ключа в логовете.
 - **Няколко фирми** за счетоводители: `NULA_PROFILES` и параметър `company` на всеки tool.
 - **Разпространение**: npm пакет с `bin`, `.mcpb` bundle за Claude Desktop (ключът отива в keychain), запис за MCP Registry, GitHub Actions за тестове и релийз.
-- **Документация**: [README](README.md), [спецификация](docs/SPEC.md) и проучване на API-то, платформата и MCP екосистемата в [docs/research](docs/research).
+- **Документация**: [README](README.md), [спецификация](docs/SPEC.md) и проучване на API-то, платформата и MCP екосистемата в [docs/research](docs/research); [CONTRIBUTING](CONTRIBUTING.md), [SECURITY](SECURITY.md), [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) и шаблони за issues и pull requests.
 
 ### Проверено на живо (26.09.2026, реален акаунт)
 - Всички 13 read tools; форматите на отговорите са документирани в [API анализ §8](docs/research/nula-api-analysis.md).

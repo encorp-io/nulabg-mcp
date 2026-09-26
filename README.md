@@ -1,10 +1,15 @@
 # nulabg-mcp
 
+[![CI](https://github.com/encorp-io/nulabg-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/encorp-io/nulabg-mcp/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/nulabg-mcp.svg)](https://www.npmjs.com/package/nulabg-mcp)
+[![Node.js](https://img.shields.io/node/v/nulabg-mcp.svg)](package.json)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 MCP сървър за счетоводната платформа [nula.bg](https://nula.bg). Дава на Claude и на други AI асистенти (Claude Desktop, Claude Code, Cursor, VS Code…) достъп до вашите фактури, покупки, OCR, клиенти, склад и банки чрез nula.bg API ключ.
 
 > **Неофициален клиент.** Проектът не е свързан с nula.bg. Работи върху публичното им REST API.
 
-*English: an MCP server for the Bulgarian accounting SaaS nula.bg. Install the `.mcpb` bundle in Claude Desktop or run `npx -y nulabg-mcp` with `NULA_API_KEY` set.*
+> 🇬🇧 **In English:** an MCP server for [nula.bg](https://nula.bg), a Bulgarian cloud accounting platform — invoices, bills with OCR, customers, inventory, bank feeds and derived reports, over an API key. Read-only by default. Install the `.mcpb` bundle in Claude Desktop, or run `npx -y nulabg-mcp` with `NULA_API_KEY` set. The rest of this README is in Bulgarian, because the platform, its documents and its users are; the tool descriptions the model sees are in English. Issues and pull requests in either language are welcome.
 
 ## Какво може
 
@@ -42,7 +47,7 @@ MCP сървър за счетоводната платформа [nula.bg](http
 
 ### Claude Desktop (препоръчително)
 
-1. Вземете `nulabg-mcp-<версия>.mcpb`: от [Releases](https://github.com/encorp-io/nulabg-mcp/releases), ако имате достъп до хранилището, или директно от нас (хранилището е частно).
+1. Свалете `nulabg-mcp-<версия>.mcpb` от [Releases](https://github.com/encorp-io/nulabg-mcp/releases/latest).
 2. Отворете файла с двоен клик (или **Settings → Extensions → Install Extension**).
 3. Въведете API ключа. Той се пази в keychain-а на системата. „Само четене“ е включено по подразбиране.
 
@@ -170,6 +175,14 @@ node dist/cli.js --list-tools
 
 **Release:** стъпките и предварителните проверки са в [docs/RELEASING.md](docs/RELEASING.md). Накратко: вдигате версията в `package.json`, обновявате [CHANGELOG.md](CHANGELOG.md) и пускате tag `vX.Y.Z`; GitHub Actions публикува в npm с provenance, прикачва `.mcpb` към GitHub Release и обновява MCP Registry.
 
+## Принос
+
+Issues и pull requests са добре дошли — на български или на английски. Най-полезни са докладите за **несъответствия с истинското API** (имена и типове на полета, без реални данни), защото официалната документация описва почти само заявките.
+
+- Как се работи по проекта: [CONTRIBUTING.md](CONTRIBUTING.md)
+- Правила на общността: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- Уязвимости: [SECURITY.md](SECURITY.md) (не през публичен issue)
+
 ## Лиценз
 
-MIT
+[MIT](LICENSE) © Encorp
