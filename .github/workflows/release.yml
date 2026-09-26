@@ -1,13 +1,16 @@
 name: Release
 
 # Push a tag like v0.2.0 (matching package.json) to publish npm, the .mcpb bundle and the registry entry.
+#
+# npm auth is Trusted Publishing (OIDC), like the other Encorp packages: no NPM_TOKEN is stored
+# anywhere, and provenance is attached automatically. One-time setup: docs/RELEASING.md.
 on:
   push:
     tags: ['v*']
 
 permissions:
   contents: write
-  id-token: write # npm provenance and MCP Registry GitHub OIDC login
+  id-token: write # npm Trusted Publishing and MCP Registry GitHub OIDC login
 
 jobs:
   release:
@@ -16,21 +19,38 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24 # ships npm 11.x; Trusted Publishing needs npm >= 11.5.1
           cache: npm
           registry-url: https://registry.npmjs.org
 
       - name: Check tag matches package.json
         run: test "v$(node -p "require('./package.json').version")" = "${GITHUB_REF_NAME}"
 
+      - name: Check npm supports Trusted Publishing
+        run: |
+          npm --version
+          node -e '
+            const v = require("child_process").execSync("npm --version").toString().trim();
+            const [a, b, c] = v.split(".").map(Number);
+            if (a < 11 || (a === 11 && (b < 5 || (b === 5 && c < 1)))) {
+              throw new Error(`Trusted Publishing needs npm >= 11.5.1, got ${v}`);
+            }
+          '
+
       - run: npm ci
       - run: npm run lint && npm run typecheck && npm test
       - run: npm run build
 
+      # No NODE_AUTH_TOKEN: GitHub's OIDC token is exchanged for a one-shot npm token and npm
+      # attaches provenance by itself, so --provenance is not passed.
       - name: Publish to npm
-        run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          if npm view "nulabg-mcp@${VERSION}" version >/dev/null 2>&1; then
+            echo "nulabg-mcp@${VERSION} is already on npm — skipping publish, releasing the rest."
+          else
+            npm publish --access public
+          fi
 
       - name: Pack Claude Desktop bundle
         run: npm run pack:mcpb

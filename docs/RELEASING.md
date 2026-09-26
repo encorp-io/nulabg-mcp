@@ -8,11 +8,31 @@
 |---|---|---|
 | GitHub хранилище | `github.com/<org>/nulabg-mcp` | Името му трябва да съвпада с `repository`, `mcpName` в `package.json`, `server.json` и `manifest.json` |
 | npm пакет | `nulabg-mcp` (без scope) | Проверено като свободно на 26.09.2026: `npm view nulabg-mcp` връща 404 |
-| `NPM_TOKEN` | Settings → Secrets and variables → Actions | Automation token с права за публикуване |
+| npm Trusted Publisher | npmjs.com → пакетът → **Settings / Access** → Trusted Publisher | Вместо токън, виж по-долу |
 | MCP Registry namespace | `io.github.encorp-io/nulabg-mcp` | Публикува се с GitHub OIDC от workflow-а; не иска ключ |
-| Права на workflow-а | Settings → Actions → General | „Read and write permissions“, за да може да създаде Release |
+| Права на workflow-а | Settings → Actions → General | „Read and write permissions“, за да може да създаде Release ✅ вече е зададено |
 
 При смяна на организация или име се обновяват: `package.json` (`name`, `mcpName`, `repository`, `homepage`, `bugs`), `server.json` (`name`, `repository`, `packages[].identifier`), `manifest.json` (`repository`, `homepage`, `documentation`, `support`), README и CHANGELOG.
+
+### npm достъп: Trusted Publishing, без `NPM_TOKEN`
+
+Като `@encorp.ai/llm-open-proxy`, пакетът се публикува през [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers): GitHub Actions разменя своя OIDC токън за еднократен npm токън. **Никъде не се пази секрет** и provenance се прикача автоматично (затова `--provenance` не се подава).
+
+Настройката е в npm, на страницата на пакета → **Settings / Access** → **Trusted Publisher** → GitHub Actions:
+
+| Поле | Стойност |
+|---|---|
+| Organization or user | `encorp-io` |
+| Repository | `nulabg-mcp` |
+| Workflow filename | `release.yml` |
+| Environment name | *(празно)* |
+
+Изисква npm ≥ 11.5.1, затова workflow-ът върви на Node 24 и проверява версията, преди да публикува.
+
+**Първата версия.** npm пре-регистрира trusted publisher само за съществуващ пакет, затова при `@encorp.ai/llm-open-proxy` версия 0.1.0 е публикувана ръчно, а всичко след нея — от Actions. Тук има два пътя:
+
+1. Ако npm позволи да добавите trusted publisher за още непубликувано име (org page → **Add package** → GitHub Actions), направете го и целият релийз минава през tag-а.
+2. Иначе публикувайте веднъж от машината си (`npm login`, после `npm publish --access public`), добавете trusted publisher и чак тогава пуснете tag-а — стъпката за npm вижда, че версията вече е в регистъра, прескача я и довършва останалото (`.mcpb`, GitHub Release, MCP Registry). Провенанс за тази първа версия няма; следващите го получават.
 
 ## Преди всеки релийз
 
@@ -52,9 +72,9 @@ node scripts/live-read-check.mjs     # всички read tools през MCP пр
 
 Оттам нататък [`.github/workflows/release.yml`](../.github/workflows/release.yml) прави:
 
-- проверка, че tag-ът съвпада с `package.json`;
+- проверка, че tag-ът съвпада с `package.json`, и че npm е ≥ 11.5.1;
 - lint, typecheck, тестове, build;
-- `npm publish --provenance --access public`;
+- `npm publish --access public` през Trusted Publishing (прескача се, ако версията вече е в npm);
 - `npm run pack:mcpb` и GitHub Release с прикачен `.mcpb`;
 - обновяване на `server.json` (версия, URL и SHA-256 на bundle-а) и `mcp-publisher publish`.
 

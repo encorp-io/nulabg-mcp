@@ -52,7 +52,8 @@
     "prepublishOnly": "npm run typecheck && npm test && npm run build"
   },
   "publishConfig": {
-    "provenance": true
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "^2.1.0",
