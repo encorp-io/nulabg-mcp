@@ -68,7 +68,7 @@ export function createNulaServer(opts: CreateServerOptions): McpServer {
         baseUrl: config.baseUrl,
         timeoutMs: config.timeoutMs,
         maxConcurrency: config.maxConcurrency,
-        userAgent: `nulabg-mcp/${VERSION} (+https://github.com/encorp-ai/nulabg-mcp)`,
+        userAgent: `nulabg-mcp/${VERSION} (+https://github.com/encorp-io/nulabg-mcp)`,
         logger,
         fetch: opts.fetch,
         retryBaseMs: opts.retryBaseMs,

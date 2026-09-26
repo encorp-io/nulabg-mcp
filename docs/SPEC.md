@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Версия на документа | 0.3, 2026-09-22 |
-| Статус | **Имплементирано v0.1** (stdio, npm + `.mcpb`). Решения от 22.09.2026: пакет `nulabg-mcp`, без облачна версия, собствен сървър, защото официалният „Таня“ не работи. **26.09.2026: фаза 0 приключена** — всички read tools и операциите със запис (издаване, редакция, статус, PDF, имейл) са проверени срещу реален акаунт; форматите са в [API анализ §8–§9](research/nula-api-analysis.md). Не минават: изтриване на осчетоводена фактура и native endpoint-ите (403) |
+| Статус | **Имплементирано v0.1** (stdio, npm + `.mcpb`). Решения от 22.09.2026: пакет `nulabg-mcp`, без облачна версия, собствен локален сървър. **26.09.2026: фаза 0 приключена** — всички read tools и операциите със запис (издаване, редакция, статус, PDF, имейл) са проверени срещу реален акаунт; форматите са в [API анализ §8–§9](research/nula-api-analysis.md). Не минават: изтриване на осчетоводена фактура и native endpoint-ите (403) |
 | MCP spec | `2026-07-28` (с обратна съвместимост към клиенти от 2025 г.) |
 | Свързани документи | [API анализ](research/nula-api-analysis.md) · [Проучване на платформата](research/nula-platform.md) · [Проучване на MCP стека](research/mcp-stack.md) · [OpenAPI snapshot](research/nula-openapi.snapshot-2026-09-22.json) |
 
@@ -26,7 +26,7 @@
 
 **Принцип на дизайна:** MCP-то **не е 1:1 огледало** на 37-те endpoint-а. Това са **18 workflow tools** (25 с всички toolsets), които скриват особеностите на API-то (4 формата за дати, 0/1 флагове, числови enum-и, „PATCH“, който изисква всичко, DELETE на „последната“ фактура) и добавят българските домейн знания и предпазни механизми.
 
-> nula.bg има и официален remote MCP сървър („Таня“, `https://nula.bg/mcp`, OAuth). По информация на екипа към 22.09.2026 той **не работи**, затова изграждаме собствен (§1.1).
+> nula.bg има и собствен remote MCP сървър (`https://nula.bg/mcp`, OAuth). Този проект е отделен, локален сървър върху публичното REST API — обхватът и причините са в §1.1.
 
 ---
 
@@ -47,14 +47,14 @@
 
 ### 1.1 Решение: собствен локален сървър
 
-- **Официалният MCP „Таня“** (`https://nula.bg/mcp`, remote, OAuth) не работи към 22.09.2026 (по информация на екипа), затова правим собствен.
+- **Отделен от официалния remote сървър на nula.bg** (`https://nula.bg/mcp`, OAuth): този проект работи локално върху публичното REST API, с API ключ.
 - **Само локален (stdio).** Облачна версия няма добавена стойност: stdio работи във всички desktop и IDE клиенти, данните и ключът не минават през наша инфраструктура, и няма OAuth и хостинг за поддръжка.
 - **Предимства на локалния модел:**
   - файлови workflows: OCR на цяла папка, PDF на диска, прикачване на файлове;
   - автоматизации без браузър (Claude Code, Claude Agent SDK, cron);
   - строги guardrails;
   - основа за custom решения на Encorp.
-- **Ако „Таня“ заработи:** двата сървъра могат да работят заедно в един клиент. Таня покрива вътрешните счетоводни анализи, а този сървър покрива публичното API и локалните файлове.
+- **Двата сървъра не се изключват:** могат да работят заедно в един клиент. Официалният покрива вътрешните счетоводни анализи, а този — публичното API, локалните файлове и автоматизациите без браузър.
 
 ---
 
@@ -617,7 +617,7 @@ HTTP статусът има приоритет пред `statusCode` в тял�
 // package.json (извадка)
 {
   "name": "nulabg-mcp",              // TBD (§17, въпрос 11)
-  "mcpName": "io.github.encorp-ai/nulabg-mcp",   // за MCP Registry
+  "mcpName": "io.github.encorp-io/nulabg-mcp",   // за MCP Registry
   "bin": { "nula-mcp": "dist/cli.js" },
   "type": "module",
   "engines": { "node": ">=20" },
@@ -666,7 +666,7 @@ Build: `mcpb pack` → `mcpb sign` → качва се в GitHub Releases (`nula
 ```jsonc
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.encorp-ai/nulabg-mcp",
+  "name": "io.github.encorp-io/nulabg-mcp",
   "title": "NULA.BG",
   "description": "Bulgarian accounting (nula.bg): invoices, bills, OCR, banking, inventory.",
   "version": "1.0.0",
@@ -675,7 +675,7 @@ Build: `mcpb pack` → `mcpb sign` → качва се в GitHub Releases (`nula
       "transport": { "type": "stdio" },
       "environmentVariables": [{ "name": "NULA_API_KEY", "isRequired": true, "isSecret": true }] },
     { "registryType": "mcpb",
-      "identifier": "https://github.com/encorp-ai/nulabg-mcp/releases/download/v1.0.0/nulabg-mcp-1.0.0.mcpb",
+      "identifier": "https://github.com/encorp-io/nulabg-mcp/releases/download/v1.0.0/nulabg-mcp-1.0.0.mcpb",
       "fileSha256": "<sha256>" }
   ],
 }
@@ -793,7 +793,7 @@ nulabg-mcp/
 13. **Изтриване:** `DELETE /api/v1/deleteInvoice` (без параметри, трие последната фактура) връща 403 с празно тяло за осчетоводени документи. Във фирма със счетоводство всички фактури са `has_accounting: true`. Има ли начин през API-то (отосчетоводяване, параметър, право на ключа), или единственият вариант е кредитно известие?
 
 ### Към вас
-11. ✅ npm пакет: `nulabg-mcp`. ⏳ **GitHub организация** (в кода е `encorp-ai`, от нея зависи namespace-ът в MCP Registry `io.github.encorp-ai/nulabg-mcp`) и **лиценз** (в кода е MIT).
+11. ✅ npm пакет: `nulabg-mcp`. ⏳ **GitHub организация** (в кода е `encorp-io`, от нея зависи namespace-ът в MCP Registry `io.github.encorp-io/nulabg-mcp`) и **лиценз** (в кода е MIT).
 12. ✅ Облачна версия няма.
 13. ⏳ `NULA_CONFIRM_WRITES=elicit` по подразбиране + задължителен preview в описанието: да се потвърди след пилот.
 14. ✅ Всички toolsets са имплементирани. `nra`/`noi` са изключени по подразбиране и се включват с `NULA_TOOLSETS=all`.
@@ -804,7 +804,7 @@ nulabg-mcp/
 
 | Риск | Вероятност | Влияние | Митигация |
 |---|---|---|---|
-| Официалният MCP (Таня) заработи и покрие същото | Средна | Средно | фокус върху локални файлове, автоматизации и guardrails; двата сървъра могат да работят заедно (§1.1) |
+| Официалният MCP на nula.bg покрие същите случаи | Средна | Средно | фокус върху локални файлове, автоматизации и guardrails; двата сървъра могат да работят заедно (§1.1) |
 | Недокументирани или променливи отговори на API-то | Висока | Средно | фаза 0 fixtures, passthrough схеми, warning-и, nightly smoke |
 | Промени в API-то без версиониране | Средна | Високо | контакт с nula.bg, CI smoke, бърз patch release |
 | AI създава грешен документ | Средна | Високо | preview, потвърждения, guard-ове, read-only |

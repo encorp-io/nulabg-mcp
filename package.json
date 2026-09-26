@@ -14,13 +14,13 @@
   ],
   "license": "MIT",
   "author": "Encorp (https://encorp.ai)",
-  "homepage": "https://github.com/encorp-ai/nulabg-mcp#readme",
+  "homepage": "https://github.com/encorp-io/nulabg-mcp#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/encorp-ai/nulabg-mcp.git"
+    "url": "git+https://github.com/encorp-io/nulabg-mcp.git"
   },
-  "bugs": "https://github.com/encorp-ai/nulabg-mcp/issues",
-  "mcpName": "io.github.encorp-ai/nulabg-mcp",
+  "bugs": "https://github.com/encorp-io/nulabg-mcp/issues",
+  "mcpName": "io.github.encorp-io/nulabg-mcp",
   "type": "module",
   "bin": {
     "nulabg-mcp": "dist/cli.js"

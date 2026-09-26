@@ -1,10 +1,10 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.encorp-ai/nulabg-mcp",
+  "name": "io.github.encorp-io/nulabg-mcp",
   "title": "NULA.BG",
   "description": "Bulgarian accounting platform nula.bg: invoices, bills, OCR, customers, inventory and banking.",
   "repository": {
-    "url": "https://github.com/encorp-ai/nulabg-mcp",
+    "url": "https://github.com/encorp-io/nulabg-mcp",
     "source": "github"
   },
   "version": "0.1.0",
@@ -39,7 +39,7 @@
     },
     {
       "registryType": "mcpb",
-      "identifier": "https://github.com/encorp-ai/nulabg-mcp/releases/download/v0.1.0/nulabg-mcp-0.1.0.mcpb",
+      "identifier": "https://github.com/encorp-io/nulabg-mcp/releases/download/v0.1.0/nulabg-mcp-0.1.0.mcpb",
       "version": "0.1.0",
       "fileSha256": "REPLACED_BY_RELEASE_WORKFLOW",
       "transport": {

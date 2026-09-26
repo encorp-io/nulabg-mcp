@@ -42,7 +42,7 @@ MCP сървър за счетоводната платформа [nula.bg](http
 
 ### Claude Desktop (препоръчително)
 
-1. Свалете `nulabg-mcp-<версия>.mcpb` от [Releases](https://github.com/encorp-ai/nulabg-mcp/releases).
+1. Вземете `nulabg-mcp-<версия>.mcpb`: от [Releases](https://github.com/encorp-io/nulabg-mcp/releases), ако имате достъп до хранилището, или директно от нас (хранилището е частно).
 2. Отворете файла с двоен клик (или **Settings → Extensions → Install Extension**).
 3. Въведете API ключа. Той се пази в keychain-а на системата. „Само четене“ е включено по подразбиране.
 

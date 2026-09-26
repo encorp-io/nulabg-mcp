@@ -12,11 +12,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/encorp-ai/nulabg-mcp"
+    "url": "https://github.com/encorp-io/nulabg-mcp"
   },
-  "homepage": "https://github.com/encorp-ai/nulabg-mcp",
-  "documentation": "https://github.com/encorp-ai/nulabg-mcp#readme",
-  "support": "https://github.com/encorp-ai/nulabg-mcp/issues",
+  "homepage": "https://github.com/encorp-io/nulabg-mcp",
+  "documentation": "https://github.com/encorp-io/nulabg-mcp#readme",
+  "support": "https://github.com/encorp-io/nulabg-mcp/issues",
   "license": "MIT",
   "keywords": ["nula", "accounting", "invoices", "bulgaria", "счетоводство", "фактури"],
   "privacy_policies": ["https://encorp.ai/privacy"],

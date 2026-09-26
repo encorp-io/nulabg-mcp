@@ -23,5 +23,5 @@
 - Операции със запис: издаване, редакция, платена/изпратена, PDF и имейл.
 - Не минава: изтриване на осчетоводена фактура (nula.bg връща 403); OCR, НАП и НОИ изискват ключ с достъп до фирмата.
 
-[Unreleased]: https://github.com/encorp-ai/nulabg-mcp/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/encorp-ai/nulabg-mcp/releases/tag/v0.1.0
+[Unreleased]: https://github.com/encorp-io/nulabg-mcp/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/encorp-io/nulabg-mcp/releases/tag/v0.1.0

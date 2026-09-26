@@ -27,8 +27,23 @@ jobs:
       - run: npm run lint && npm run typecheck && npm test
       - run: npm run build
 
-      - name: Publish to npm
+      # npm provenance and the MCP Registry both need a public repository, so they switch on automatically
+      # once this repository becomes public.
+      - name: Detect repository visibility
+        id: vis
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: echo "public=$(gh api repos/$GITHUB_REPOSITORY --jq 'if .private then "false" else "true" end')" >> "$GITHUB_OUTPUT"
+
+      - name: Publish to npm (with provenance)
+        if: steps.vis.outputs.public == 'true'
         run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish to npm (private repository, no provenance)
+        if: steps.vis.outputs.public != 'true'
+        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -43,6 +58,7 @@ jobs:
           gh release create "$GITHUB_REF_NAME" "nulabg-mcp-${VERSION}.mcpb" --generate-notes
 
       - name: Update server.json (version, bundle URL and SHA-256)
+        if: steps.vis.outputs.public == 'true'
         run: |
           VERSION=${GITHUB_REF_NAME#v}
           SHA=$(sha256sum "nulabg-mcp-${VERSION}.mcpb" | cut -d' ' -f1)
@@ -62,6 +78,7 @@ jobs:
           ' "$VERSION" "$SHA" "$GITHUB_REPOSITORY"
 
       - name: Publish to the MCP Registry
+        if: steps.vis.outputs.public == 'true' # the registry links to the repo and the .mcpb download
         run: |
           curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
           ./mcp-publisher login github-oidc

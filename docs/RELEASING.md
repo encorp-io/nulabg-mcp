@@ -1,6 +1,13 @@
 # Релийз
 
-Версията се публикува на три места от един tag: **npm**, **GitHub Release** (с `.mcpb` файла) и **MCP Registry**.
+Версията се публикува от един tag: **npm** и **GitHub Release** (с `.mcpb` файла), а при публично хранилище — и в **MCP Registry**.
+
+> ⚠️ **Хранилището е private.** Това означава:
+> - **npm provenance не работи** за частни хранилища, затова workflow-ът публикува без него (`npm publish --access public`). Пакетът си остава публичен в npm.
+> - **`.mcpb` файлът от GitHub Release се тегли само от хора с достъп** до хранилището. За клиенти изпращайте файла директно или пуснете хранилището публично.
+> - **MCP Registry стъпката се пропуска**, защото записът сочи хранилището и `.mcpb` за сваляне.
+>
+> Щом хранилището стане публично, и трите неща се включват автоматично: workflow-ът проверява видимостта (`Detect repository visibility`) и сам избира стъпките.
 
 ## Еднократна подготовка
 
@@ -9,7 +16,7 @@
 | GitHub хранилище | `github.com/<org>/nulabg-mcp` | Името му трябва да съвпада с `repository`, `mcpName` в `package.json`, `server.json` и `manifest.json` |
 | npm пакет | `nulabg-mcp` (без scope) | Проверено като свободно на 26.09.2026: `npm view nulabg-mcp` връща 404 |
 | `NPM_TOKEN` | Settings → Secrets and variables → Actions | Automation token с права за публикуване |
-| MCP Registry namespace | `io.github.<org>/nulabg-mcp` | Публикува се с GitHub OIDC от workflow-а; не иска ключ |
+| MCP Registry namespace | `io.github.encorp-io/nulabg-mcp` | Публикува се с GitHub OIDC от workflow-а; не иска ключ. Работи само при публично хранилище |
 | Права на workflow-а | Settings → Actions → General | „Read and write permissions“, за да може да създаде Release |
 
 При смяна на организация или име се обновяват: `package.json` (`name`, `mcpName`, `repository`, `homepage`, `bugs`), `server.json` (`name`, `repository`, `packages[].identifier`), `manifest.json` (`repository`, `homepage`, `documentation`, `support`), README и CHANGELOG.
