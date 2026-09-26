@@ -70,6 +70,8 @@ node scripts/live-read-check.mjs     # всички read tools през MCP пр
    `manifest.json` и `server.json` се синхронизират автоматично: манифестът при `npm run pack:mcpb`, а `server.json` от release workflow-а.
 3. `git push origin main --follow-tags`
 
+> `--follow-tags` праща само **анотирани** tag-ове. `npm version` прави точно такъв; ако сте сложили tag на ръка с `git tag v0.1.0`, той е lightweight и се праща изрично: `git push origin v0.1.0`.
+
 Оттам нататък [`.github/workflows/release.yml`](../.github/workflows/release.yml) прави:
 
 - проверка, че tag-ът съвпада с `package.json`, и че npm е ≥ 11.5.1;
