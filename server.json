@@ -1,0 +1,50 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.encorp-ai/nulabg-mcp",
+  "title": "NULA.BG",
+  "description": "Bulgarian accounting platform nula.bg: invoices, bills, OCR, customers, inventory and banking.",
+  "repository": {
+    "url": "https://github.com/encorp-ai/nulabg-mcp",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "nulabg-mcp",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "NULA_API_KEY",
+          "description": "nula.bg API key",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "NULA_READ_ONLY",
+          "description": "Read-only by default (true). Set to false to allow creating, editing, e-mailing and deleting documents",
+          "isRequired": false,
+          "default": "true"
+        },
+        {
+          "name": "NULA_PROFILES",
+          "description": "Optional JSON {\"alias\":\"api-key\"} for several companies",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    },
+    {
+      "registryType": "mcpb",
+      "identifier": "https://github.com/encorp-ai/nulabg-mcp/releases/download/v0.1.0/nulabg-mcp-0.1.0.mcpb",
+      "version": "0.1.0",
+      "fileSha256": "REPLACED_BY_RELEASE_WORKFLOW",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

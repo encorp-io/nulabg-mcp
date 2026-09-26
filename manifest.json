@@ -1,0 +1,94 @@
+{
+  "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/mcpb/main/dist/mcpb-manifest-v0.3.schema.json",
+  "manifest_version": "0.3",
+  "name": "nulabg",
+  "display_name": "NULA.BG – счетоводство",
+  "version": "0.1.0",
+  "description": "Фактури, покупки, OCR, клиенти, склад и банки от nula.bg директно в Claude.",
+  "long_description": "Свързва Claude със счетоводната платформа nula.bg чрез вашия API ключ. Claude може да издава и търси фактури (с преглед и потвърждение преди създаване), да въвежда покупки, да пуска документи през OCR от папки на компютъра, да проверява клиенти и наличности, да показва банкови движения и справки за вземания. Режимът „Само четене“ забранява всякакви промени. Неофициален клиент, не е свързан с nula.bg.",
+  "author": {
+    "name": "Encorp",
+    "url": "https://encorp.ai"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/encorp-ai/nulabg-mcp"
+  },
+  "homepage": "https://github.com/encorp-ai/nulabg-mcp",
+  "documentation": "https://github.com/encorp-ai/nulabg-mcp#readme",
+  "support": "https://github.com/encorp-ai/nulabg-mcp/issues",
+  "license": "MIT",
+  "keywords": ["nula", "accounting", "invoices", "bulgaria", "счетоводство", "фактури"],
+  "privacy_policies": ["https://encorp.ai/privacy"],
+  "server": {
+    "type": "node",
+    "entry_point": "dist/cli.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/cli.js"],
+      "env": {
+        "NULA_API_KEY": "${user_config.api_key}",
+        "NULA_PROFILES": "${user_config.extra_companies}",
+        "NULA_READ_ONLY": "${user_config.read_only}",
+        "NULA_TOOLSETS": "${user_config.toolsets}",
+        "NULA_DEFAULT_INVOICE_CATEGORY": "${user_config.default_category}",
+        "NULA_DOWNLOAD_DIR": "${user_config.download_dir}",
+        "NULA_FILE_ROOTS": "${user_config.file_root}"
+      }
+    }
+  },
+  "user_config": {
+    "api_key": {
+      "type": "string",
+      "title": "nula.bg API ключ",
+      "description": "API ключът от вашия акаунт в nula.bg. Пази се в keychain-а на системата.",
+      "sensitive": true,
+      "required": true
+    },
+    "read_only": {
+      "type": "boolean",
+      "title": "Само четене (препоръчително)",
+      "description": "Включено по подразбиране: Claude може само да чете данни. Изключете, за да позволите създаване, изпращане и изтриване на документи в nula.bg.",
+      "default": true
+    },
+    "toolsets": {
+      "type": "string",
+      "title": "Модули",
+      "description": "Кои групи инструменти да са активни (разделени със запетая) или „all“ за всички, вкл. НАП и НОИ.",
+      "default": "core,invoices,bills,ocr,customers,inventory,banking,insights"
+    },
+    "default_category": {
+      "type": "string",
+      "title": "Категория по подразбиране",
+      "description": "Категория (таг) за нови фактури, когато не е посочена. nula.bg изисква поне една.",
+      "default": ""
+    },
+    "download_dir": {
+      "type": "directory",
+      "title": "Папка за изтеглени документи",
+      "description": "Къде да се записват PDF на фактури и други документи.",
+      "default": "${DOWNLOADS}/nula"
+    },
+    "file_root": {
+      "type": "directory",
+      "title": "Папка с документи за качване",
+      "description": "Claude може да качва за OCR или да прикачва само файлове от тази папка и подпапките ѝ.",
+      "default": "${HOME}"
+    },
+    "extra_companies": {
+      "type": "string",
+      "title": "Допълнителни фирми (за счетоводители)",
+      "description": "По избор: JSON {\"фирма-1\":\"API ключ\",...} за работа с няколко фирми.",
+      "sensitive": true,
+      "default": ""
+    }
+  },
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=20.0.0"
+    }
+  },
+  "tools_generated": false,
+  "prompts_generated": false
+}
